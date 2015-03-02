@@ -20,11 +20,11 @@ def parse_options
     end
 
     opts.on('-a', '--amplitude MAX_AMPLITUDE', 'Amplitude/volume (0.0 - 1.0) to play the sound(s) at') do |a|
-      options[:volume] = a
+      options[:volume] = a.to_f
     end
     
     opts.on('-d', '--duration DURATION', 'Duration in ms to play the sound(s)') do |d|
-      options[:duration] = d
+      options[:duration] = d.to_i
     end
     
     opts.on('-s', '--save', 'Save the resulting WAV file in the current directory') do |s|
@@ -60,10 +60,8 @@ def print_error(error)
 end
 
 begin
-  options = parse_options() || {:freq_or_note => 440.000, :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
+  options = parse_options()
 
-  binding.pry
-  
   Feep.new(options)
 rescue => error
   print_error(error)

@@ -20,13 +20,13 @@ class Feep
 
   def configure_sound(options)
     ### A. Check non-essential options
-
     if !WAVE_TYPES.include?(options[:waveform])
       app_error(ERROR_MSG[:wave_form])
     end
 
     # Convert ms to secs in order to multiply the sample rate by
-    duration_s = (options[:duration].to_i / 1000)
+    duration_s = (options[:duration].to_f / 1000)
+
     # Make the samples to write a nice integer
     samples_to_write = (SAMPLE_RATE * duration_s).to_i
 
