@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require_relative '../lib/feep'
+
+USAGE_INSTRUCTIONS = ''
+
+def parse_options
+  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
+
+  optparse = OptionParser.new do |opts|
+    opts.banner = 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [waveform] [volume] [duration] [save]'
+
+    opts.on('-f', '-n', '--freq_or_note FREQUENCY|NOTE_NAME', 'One or more frequencies or note names to play at once, e.g. 440 or A4 or 220,440,880') do |f_or_n|
+      options[:freq_or_note] = f_or_n
+    end
+    
+    opts.on('-w', '--wave WAVE_FORM_NAME', 'Waveform type to use for the sound') do |w|
+      options[:waveform] = w
+    end
+
+    opts.on('-a', '--amplitude MAX_AMPLITUDE', 'Amplitude/volume (0.0 - 1.0) to play the sound(s) at') do |a|
+      options[:volume] = a
+    end
+    
+    opts.on('-d', '--duration DURATION', 'Duration to play the sound(s)') do |d|
+      options[:duration] = d
+    end
+    
+    opts.on('-s', '--save', 'Save the resulting WAV file in the current directory') do |s|
+      options[:save] = s
+    end
+
+    opts.on('-v', '--version', 'Display version number and exit') do
+      puts "#{$0} #{Feep::VERSION}"
+      exit
+    end
+
+    opts.on( '-h', '--help', 'Display this screen and exit') do
+      puts opts
+      exit
+    end
+  end
+
+  USAGE_INSTRUCTIONS << optparse.to_s
+  optparse.parse!()
+
+  return options
+end
+
+def print_error(error)
+  case error
+  when OptionParser::InvalidOption
+    puts "feep: illegal option #{error.args.join(' ')}"
+    puts USAGE_INSTRUCTIONS
+  else
+    puts 'An unexpected error occurred while running Feep:'
+    puts "  #{error}\n"
+  end
+end
+
+begin
+  #options = parse_options()
+  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
+  puts "begin: #{options}"
+
+  Foo.new(options)
+
+  Feep.new(options)
+rescue => error
+  print_error(error)
+  exit(false)
+end
