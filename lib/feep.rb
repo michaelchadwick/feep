@@ -112,30 +112,34 @@ class Feep
   
   # removes the sound, unless marked to save
   def remove_sound(file)
-    if @options[:save]
-      system("rm #{file}")
+    if !@options[:save]
+      if OS.windows?
+        system("del #{file}")
+      else
+        system("rm #{file}")
+      end
     else
       info = Reader.info(file)
       duration = info.duration
       formatted_duration = duration.minutes.to_s.rjust(2, '0') << ':' <<
                            duration.seconds.to_s.rjust(2, '0') << ':' <<
                            duration.milliseconds.to_s.rjust(3, '0')
-      puts "Filename:    #{file}"
+      puts ""
+      puts "Created #{file}"
+      puts "---"
       puts "Length:      #{formatted_duration}"
       puts "Format:      #{info.audio_format}"
       puts "Channels:    #{info.channels}"
       puts "Frames:      #{info.sample_frame_count}"
-      
       puts "Sample Rate: #{info.sample_rate}"
     end
   end
   
   # code from Joel Strait's nanosynth to generate raw audio
   def create_sound(frequency, waveform, samples, volume, output_filename)
-    binding.pry
     # Generate sample data for the given frequency, amplitude, and duration.
     # Since we are using a sample rate of 44,100Hz, 44,100 samples are required for one second of sound.
-    samples = generate_sample_data(frequency, waveform, samples, volume)
+    samples = generate_sample_data(waveform.to_sym, samples, frequency.to_f, volume.to_f)
 
     # Wrap the array of samples in a Buffer, so that it can be written to a Wave file
     # by the WaveFile gem. Since we generated samples between -1.0 and 1.0, the sample
@@ -151,7 +155,8 @@ class Feep
   
   # more code from Joel Strait's nanosynth (http://joe)
   # The dark heart of NanoSynth, the part that actually generates the audio data
-  def generate_sample_data(frequency, wave_type, num_samples, max_amplitude)
+  def generate_sample_data(wave_type, num_samples, frequency, max_amplitude)
+    binding.pry
     position_in_period = 0.0
     position_in_period_delta = frequency / SAMPLE_RATE
 

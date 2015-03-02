@@ -60,8 +60,7 @@ def print_error(error)
 end
 
 begin
-  #options = parse_options()
-  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
+  options = parse_options() || {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
   puts "begin: #{options}"
 
   Foo.new(options)
