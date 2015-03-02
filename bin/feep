@@ -23,7 +23,7 @@ def parse_options
       options[:volume] = a
     end
     
-    opts.on('-d', '--duration DURATION', 'Duration to play the sound(s)') do |d|
+    opts.on('-d', '--duration DURATION', 'Duration in ms to play the sound(s)') do |d|
       options[:duration] = d
     end
     
@@ -60,11 +60,10 @@ def print_error(error)
 end
 
 begin
-  options = parse_options() || {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
-  puts "begin: #{options}"
+  options = parse_options() || {:freq_or_note => 440.000, :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
 
-  Foo.new(options)
-
+  binding.pry
+  
   Feep.new(options)
 rescue => error
   print_error(error)

@@ -4,16 +4,9 @@ require 'pry'
 require_relative 'feep/constants'
 include WaveFile
 
-class Foo
-  def initialize(options)
-    puts "Foo #{options[:waveform]}"
-  end
-end
-
 class Feep
   def initialize(options)
     @options = options
-    puts "initialize: #{options}"
     configure_sound(options)
   end
   
@@ -33,7 +26,7 @@ class Feep
     end
 
     # Convert ms to secs in order to multiply the sample rate by
-    duration_s = (options[:duration] / 1000)
+    duration_s = (options[:duration].to_i / 1000)
     # Make the samples to write a nice integer
     samples_to_write = (SAMPLE_RATE * duration_s).to_i
 
@@ -156,7 +149,6 @@ class Feep
   # more code from Joel Strait's nanosynth (http://joe)
   # The dark heart of NanoSynth, the part that actually generates the audio data
   def generate_sample_data(wave_type, num_samples, frequency, max_amplitude)
-    binding.pry
     position_in_period = 0.0
     position_in_period_delta = frequency / SAMPLE_RATE
 
