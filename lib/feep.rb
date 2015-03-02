@@ -4,10 +4,17 @@ require 'pry'
 require_relative 'feep/constants'
 include WaveFile
 
+class Foo
+  def initialize(options)
+    puts "Foo #{options[:waveform]}"
+  end
+end
+
 class Feep
   def initialize(options)
     @options = options
-    configure_sound(@options)
+    puts "initialize: #{options}"
+    configure_sound(options)
   end
   
   def midi_to_freq(midi_note)
@@ -22,7 +29,7 @@ class Feep
     ### A. Check non-essential options
 
     if !WAVE_TYPES.include?(options[:waveform])
-      app_error(ERROR_MSG["wave_form_invalid"])
+      app_error(ERROR_MSG[:wave_form])
     end
 
     # Convert ms to secs in order to multiply the sample rate by
@@ -33,23 +40,23 @@ class Feep
     ### B. Set frequency/note, or group of frequencies/notes, to play
 
     # Is it a chord or a note?
-    if options[:freq_or_note].include?(",")
+    if options[:freq_or_note].include?(',')
       # yes, it's a chord, so create threads
-      puts "playing chord"
+      puts 'playing chord'
       threads = []
-      options[:freq_or_note].split(",").each do |note|
+      options[:freq_or_note].split(',').each do |note|
         sound_to_play = convert_note_to_freq(note)
-        output_filename = "#{waveform}_#{sound_to_play}Hz_#{volume.to_f}_#{duration.to_s}.wav"
+        output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration].to_s}.wav"
         threads << Thread.new {
-          play_note(sound_to_play.to_f, waveform, volume.to_f, duration.to_i, samples_to_write, output_filename) 
+          play_note(sound_to_play.to_f, options[:waveform], options[:volume].to_f, options[:duration].to_i, samples_to_write, output_filename) 
         }
       end
       threads.each { |th| th.join }
     else
       # no, it's a single note
       sound_to_play = convert_note_to_freq(options[:freq_or_note])
-      output_filename = "#{waveform}_#{sound_to_play}Hz_#{volume.to_f}_#{duration.to_s}.wav"
-      play_note(sound_to_play, waveform, volume.to_f, duration.to_i, samples_to_write, output_filename)
+      output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration].to_s}.wav"
+      play_note(sound_to_play, options[:waveform], options[:volume].to_f, options[:duration].to_i, samples_to_write, output_filename)
     end
   end
   
@@ -58,7 +65,7 @@ class Feep
       if NOTE_FREQ.has_key?(freq_or_note)
         frequency = NOTE_FREQ[note]
       else
-        app_error(ERROR_MSG["note_name_invalid"])
+        app_error(ERROR_MSG[:note_name])
       end
     else
       frequency = freq_or_note
@@ -94,25 +101,25 @@ class Feep
   
   # displays a fun beep message
   def display_text_beep(duration)
-    print "Be"
+    print 'Be'
     1.upto(duration) {|ms|
       if ms % 100 == 0
         print 'e'
       end
     }
-    print "ep!"
+    print 'ep!'
   end
   
   # removes the sound, unless marked to save
   def remove_sound(file)
-    if @options[:save] != "true"
+    if @options[:save]
       system("rm #{file}")
     else
       info = Reader.info(file)
       duration = info.duration
-      formatted_duration = duration.minutes.to_s.rjust(2, "0") << ":" <<
-                           duration.seconds.to_s.rjust(2, "0") << ":" <<
-                           duration.milliseconds.to_s.rjust(3, "0")
+      formatted_duration = duration.minutes.to_s.rjust(2, '0') << ':' <<
+                           duration.seconds.to_s.rjust(2, '0') << ':' <<
+                           duration.milliseconds.to_s.rjust(3, '0')
       puts "Filename:    #{file}"
       puts "Length:      #{formatted_duration}"
       puts "Format:      #{info.audio_format}"
@@ -125,6 +132,7 @@ class Feep
   
   # code from Joel Strait's nanosynth to generate raw audio
   def create_sound(frequency, waveform, samples, volume, output_filename)
+    binding.pry
     # Generate sample data for the given frequency, amplitude, and duration.
     # Since we are using a sample rate of 44,100Hz, 44,100 samples are required for one second of sound.
     samples = generate_sample_data(frequency, waveform, samples, volume)
@@ -180,7 +188,7 @@ class Feep
   
   # creates, plays, and removes note
   def play_note(frequency, waveform, volume, duration, samples_to_write, output_filename)
-    puts "Playing note"
+    puts 'Playing note'
     puts "  frequency:    #{frequency.to_f.abs}"
     puts "  midi:         #{freq_to_midi(frequency)}"
     puts "  duration:     #{duration}"
@@ -192,7 +200,7 @@ class Feep
   # displays error, usage, and exits
   def app_error(msg)
     puts "#{File.basename($0).split(".")[0]}: #{msg}"
-    puts "usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [sine|square|saw|triangle|noise] [volume] [duration] [save]"
+    puts 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [sine|square|saw|triangle|noise] [volume] [duration] [save]'
     exit
   end
 
