@@ -1,7 +1,6 @@
 require 'wavefile'
 require 'os'
 require_relative 'feep/constants'
-include WaveFile
 
 class Feep
   def initialize(options)
