@@ -35,7 +35,6 @@ class Feep
     # Is it a chord or a note?
     if options[:freq_or_note].include?(',')
       # yes, it's a chord, so create threads
-      puts 'playing chord'
       threads = []
       options[:freq_or_note].split(',').each do |note|
         sound_to_play = convert_note_to_freq(note)
