@@ -111,19 +111,21 @@ class Feep
         system("rm #{file}")
       end
     else
-      info = Reader.info(file)
-      duration = info.duration
-      formatted_duration = duration.minutes.to_s.rjust(2, '0') << ':' <<
+      if @options[:loud]
+        info = Reader.info(file)
+        duration = info.duration
+        formatted_duration = duration.minutes.to_s.rjust(2, '0') << ':' <<
                            duration.seconds.to_s.rjust(2, '0') << ':' <<
                            duration.milliseconds.to_s.rjust(3, '0')
-      puts ""
-      puts "Created #{file}"
-      puts "---"
-      puts "Length:      #{formatted_duration}"
-      puts "Format:      #{info.audio_format}"
-      puts "Channels:    #{info.channels}"
-      puts "Frames:      #{info.sample_frame_count}"
-      puts "Sample Rate: #{info.sample_rate}"
+        puts ""
+        puts "Created #{file}"
+        puts "---"
+        puts "Length:      #{formatted_duration}"
+        puts "Format:      #{info.audio_format}"
+        puts "Channels:    #{info.channels}"
+        puts "Frames:      #{info.sample_frame_count}"
+        puts "Sample Rate: #{info.sample_rate}"
+      end
     end
   end
   
@@ -184,10 +186,12 @@ class Feep
   
   # creates, plays, and removes note
   def play_note(frequency, waveform, volume, duration, samples_to_write, output_filename)
-    puts 'Playing note'
-    puts "  frequency:    #{frequency.to_f.abs}"
-    puts "  midi:         #{freq_to_midi(frequency)}"
-    puts "  duration:     #{duration}"
+    if @options[:loud]
+      puts 'Playing note'
+      puts "  frequency:    #{frequency.to_f.abs}"
+      puts "  midi:         #{freq_to_midi(frequency)}"
+      puts "  duration:     #{duration}"
+    end
     create_sound(frequency, waveform, samples_to_write, volume, output_filename)
     play_sound(output_filename, duration)
     remove_sound(output_filename)

@@ -6,7 +6,7 @@ require_relative '../lib/feep'
 USAGE_INSTRUCTIONS = ''
 
 def parse_options
-  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false}
+  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false, :loud => false}
 
   optparse = OptionParser.new do |opts|
     opts.banner = 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [waveform] [volume] [duration] [save]'
@@ -26,7 +26,11 @@ def parse_options
     opts.on('-d', '--duration DURATION', 'Duration in ms to play the sound(s)') do |d|
       options[:duration] = d.to_i
     end
-    
+
+    opts.on('-l', '--loud', 'Displays information about note(s) being played') do
+      options[:loud] = true
+    end
+
     opts.on('-s', '--save', 'Save the resulting WAV file in the current directory') do
       options[:save] = true
     end
