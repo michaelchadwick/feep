@@ -42,6 +42,6 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.8)
   feep!
-  pry-byebug
+  pry-byebug (~> 3.0)
   rake (~> 10.0)
   rspec (~> 0)
