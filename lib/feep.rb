@@ -3,19 +3,41 @@ require 'os'
 require 'feep/constants'
 
 class Feep
+  
+  # main entry point
   def initialize(options)
     @options = options
     configure_sound(options)
   end
   
+  # convert midi notes to frequencies
   def midi_to_freq(midi_note)
     return 440.0 * (2.0 ** ((midi_note.to_f-69)/12))
   end
 
+  # convert frequencies to midi notes
   def freq_to_midi(freq)
     return (69 + 12 * (Math.log2(freq.to_i.abs / 440.0))).round
   end
 
+  # makes sure that whatever kind of sound was entered on the CLI
+  # it is now a frequency to feed into the sample data generator
+  def convert_note_to_freq(freq_or_note)
+    if freq_or_note.match(/[A-Za-z]/)
+      if NOTE_FREQ.has_key?(freq_or_note)
+        frequency = NOTE_FREQ[freq_or_note]
+      else
+        app_error(ERROR_MSG[:note_name])
+      end
+    else
+      frequency = freq_or_note
+    end
+    
+    return frequency
+  end
+
+  # takes CLI options, massages them, and passes them to the
+  # sound generation methods
   def configure_sound(options)
     ### A. Check non-essential options
     if !WAVE_TYPES.include?(options[:waveform])
@@ -48,20 +70,6 @@ class Feep
       output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration].to_s}.wav"
       play_note(sound_to_play, options[:waveform], options[:volume].to_f, options[:duration].to_i, samples_to_write, output_filename)
     end
-  end
-  
-  def convert_note_to_freq(freq_or_note)
-    if freq_or_note.match(/[A-Za-z]/)
-      if NOTE_FREQ.has_key?(freq_or_note)
-        frequency = NOTE_FREQ[freq_or_note]
-      else
-        app_error(ERROR_MSG[:note_name])
-      end
-    else
-      frequency = freq_or_note
-    end
-    
-    return frequency
   end
 
   # plays note using system wav file player
