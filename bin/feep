@@ -11,7 +11,7 @@ def parse_options
   optparse = OptionParser.new do |opts|
     opts.banner = 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [waveform] [volume] [duration] [save]'
 
-    opts.on('-f', '-n', '--freq_or_note FREQUENCY|NOTE_NAME', 'One or more frequencies or note names to play at once, e.g. 440 or A4 or 220,440,880') do |f_or_n|
+    opts.on('-f', '-n', '--freq-or-note FREQUENCY|NOTE_NAME', 'One or more frequencies or note names to play at once, e.g. 440 or A4 or 220,440,880') do |f_or_n|
       options[:freq_or_note] = f_or_n
     end
     
