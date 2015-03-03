@@ -110,7 +110,7 @@ class Feep
       end
     else
       if @options[:loud]
-        info = Reader.info(file)
+        info = WaveFile::Reader.info(file)
         duration = info.duration
         formatted_duration = duration.minutes.to_s.rjust(2, '0') << ':' <<
                            duration.seconds.to_s.rjust(2, '0') << ':' <<
