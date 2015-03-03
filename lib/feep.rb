@@ -99,7 +99,7 @@ class Feep
         print 'e'
       end
     }
-    print 'ep!'
+    puts 'ep!'
   end
   
   # removes the sound, unless marked to save
