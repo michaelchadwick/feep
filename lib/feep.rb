@@ -81,7 +81,7 @@ class Feep
       end
     end
 
-    if OS.mac?
+    if OS.mac? || OS.linux?
       if system_apps.include? SNDPLAYER_UNIX
         display_text_beep(duration)
         system("#{SNDPLAYER_UNIX} #{file}")
