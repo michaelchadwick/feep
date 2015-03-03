@@ -1,6 +1,5 @@
 require 'wavefile'
 require 'os'
-require 'pry'
 require_relative 'feep/constants'
 include WaveFile
 
