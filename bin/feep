@@ -27,8 +27,8 @@ def parse_options
       options[:duration] = d.to_i
     end
     
-    opts.on('-s', '--save', 'Save the resulting WAV file in the current directory') do |s|
-      options[:save] = s
+    opts.on('-s', '--save', 'Save the resulting WAV file in the current directory') do
+      options[:save] = true
     end
 
     opts.on('-v', '--version', 'Display version number and exit') do
