@@ -56,7 +56,7 @@ class Feep
   def convert_note_to_freq(freq_or_note)
     if freq_or_note.match(/[A-Za-z]/)
       if NOTE_FREQ.has_key?(freq_or_note)
-        frequency = NOTE_FREQ[note]
+        frequency = NOTE_FREQ[freq_or_note]
       else
         app_error(ERROR_MSG[:note_name])
       end
