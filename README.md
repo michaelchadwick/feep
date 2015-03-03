@@ -11,6 +11,14 @@ Besides a quick way to make some kind of noise, which I always appreciate, this 
 
 ## How?
 
+For now:
+1. `git clone git@github.com:michaelchadwick/feep`
+2. `cd feep`
+3. `gem build feep.gemspec`
+4. `gem install feep-0.0.1.gem`
+5. `bundle install`
+6. `feep`
+
 Feep doesn't require any parameters, as it will play a 440Hz/A4 sine wave at 50% full volume for 1000 milliseconds unless you supply one of the below options. Feep will only save the resulting WAV file it creates if you specify the `-save` parameter.
 
 The full usage looks like this:
