@@ -9,7 +9,7 @@ def parse_options
   options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false, :loud => false}
 
   optparse = OptionParser.new do |opts|
-    opts.banner = 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [waveform] [volume] [duration] [save]'
+    opts.banner = 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [waveform] [volume] [duration] [save] [-loud]'
 
     opts.on('-f', '-n', '--freq-or-note FREQUENCY|NOTE_NAME', 'One or more frequencies or note names to play at once, e.g. 440 or A4 or 220,440,880') do |f_or_n|
       options[:freq_or_note] = f_or_n
@@ -27,12 +27,12 @@ def parse_options
       options[:duration] = d.to_i
     end
 
-    opts.on('-l', '--loud', 'Displays information about note(s) being played') do
-      options[:loud] = true
-    end
-
     opts.on('-s', '--save', 'Save the resulting WAV file in the current directory') do
       options[:save] = true
+    end
+    
+    opts.on('-l', '--loud', 'Displays information about note(s) being played') do
+      options[:loud] = true
     end
 
     opts.on('-v', '--version', 'Display version number and exit') do
