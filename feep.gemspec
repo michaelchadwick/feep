@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.platform        = Gem::Platform::RUBY
   spec.authors         = ["Michael Chadwick"]
   spec.email           = 'mike@codana.me'
-  spec.homepage        = "http://rubygemspec.org/gems/feep"
+  spec.homepage        = "http://rubygems.org/gems/feep"
   spec.summary         = %q{Make your computer feep with Ruby}
   spec.description     = %q{Use Ruby to make your computer beep at a certain frequency for a certain duration. Do it for fun, or add it to other programs for easy alert sounds.}
 
