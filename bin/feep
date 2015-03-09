@@ -6,7 +6,7 @@ require 'feep'
 USAGE_INSTRUCTIONS = ''
 
 def parse_options
-  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 1000, :save => false, :loud => false}
+  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 200, :save => false, :loud => false}
 
   optparse = OptionParser.new do |opts|
     opts.banner = 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [waveform] [volume] [duration] [save] [-loud]'
