@@ -36,11 +36,11 @@ def parse_options
     end
 
     opts.on('-v', '--version', 'Display version number and exit') do
-      puts "#{$0} #{Feep::VERSION}"
+      puts "#{$PROGRAM_NAME} #{Feep::VERSION}"
       exit
     end
 
-    opts.on( '-h', '--help', 'Display this screen and exit') do
+    opts.on('-h', '--help', 'Display this screen and exit') do
       puts opts
       exit
     end
@@ -64,7 +64,7 @@ def print_error(error)
 end
 
 begin
-  options = parse_options()
+  options = parse_options
 
   Feep.new(options)
 rescue => error

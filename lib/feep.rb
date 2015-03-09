@@ -12,19 +12,19 @@ class Feep
   
   # convert midi notes to frequencies
   def midi_to_freq(midi_note)
-    return 440.0 * (2.0 ** ((midi_note.to_f-69)/12))
+    440.0 * (2.0 ** ((midi_note.to_f-69)/12))
   end
 
   # convert frequencies to midi notes
   def freq_to_midi(freq)
-    return (69 + 12 * (Math.log2(freq.to_i.abs / 440.0))).round
+    (69 + 12 * (Math.log2(freq.to_i.abs / 440.0))).round
   end
 
   # makes sure that whatever kind of sound was entered on the CLI
   # it is now a frequency to feed into the sample data generator
   def convert_note_to_freq(freq_or_note)
     if freq_or_note.match(/[A-Za-z]/)
-      if NOTE_FREQ.has_key?(freq_or_note)
+      if NOTE_FREQ.key?(freq_or_note)
         frequency = NOTE_FREQ[freq_or_note]
       else
         app_error(ERROR_MSG[:note_name])
@@ -58,7 +58,7 @@ class Feep
       threads = []
       options[:freq_or_note].split(',').each do |note|
         sound_to_play = convert_note_to_freq(note)
-        output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration].to_s}.wav"
+        output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration]}.wav"
         threads << Thread.new {
           play_note(sound_to_play.to_f, options[:waveform], options[:volume].to_f, options[:duration].to_i, samples_to_write, output_filename) 
         }
@@ -67,7 +67,7 @@ class Feep
     else
       # no, it's a single note
       sound_to_play = convert_note_to_freq(options[:freq_or_note])
-      output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration].to_s}.wav"
+      output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration]}.wav"
       play_note(sound_to_play, options[:waveform], options[:volume].to_f, options[:duration].to_i, samples_to_write, output_filename)
     end
   end
@@ -76,7 +76,7 @@ class Feep
   def play_sound(file, duration)
     delimiter = OS.windows? ? ';' : ':'
 
-    system_apps = ENV['PATH'].split(delimiter).collect {|d| Dir.entries d if Dir.exists? d}.flatten
+    system_apps = ENV['PATH'].split(delimiter).collect { |d| Dir.entries d if Dir.exist? d }.flatten
 
     if OS.windows?
       if system_apps.include? SNDPLAYER_WIN
@@ -123,9 +123,9 @@ class Feep
         formatted_duration = duration.minutes.to_s.rjust(2, '0') << ':' <<
                            duration.seconds.to_s.rjust(2, '0') << ':' <<
                            duration.milliseconds.to_s.rjust(3, '0')
-        puts ""
+        puts ''
         puts "Created #{file}"
-        puts "---"
+        puts '---'
         puts "Length:      #{formatted_duration}"
         puts "Format:      #{info.audio_format}"
         puts "Channels:    #{info.channels}"
@@ -205,7 +205,7 @@ class Feep
 
   # displays error, usage, and exits
   def app_error(msg)
-    puts "#{File.basename($0).split(".")[0]}: #{msg}"
+    puts "#{File.basename($PROGRAM_NAME).split('.')[0]}: #{msg}"
     puts 'usage: feep [frequency|note_name|list_of_frequencies_or_note_names] [sine|square|saw|triangle|noise] [volume] [duration] [save]'
     exit
   end
