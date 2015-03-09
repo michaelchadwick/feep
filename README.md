@@ -7,26 +7,33 @@ _Note:_ In order for the sound-playing magic to work on Windows, you will need [
 
 ## Why?
 
-Besides a quick way to make some kind of noise, which I always appreciate, this could be used to tie into another Ruby script for an alert tone or maybe even some wicked cool command-line game that needs musical note sound effects. The opportunities are essentially endless.
+Besides a quick way to make some kind of noise for fun or testing your speakers, which I always appreciate, `feep` could be used to tie into another Ruby script for an alert tone or maybe even some wicked cool command-line game that needs musical note sound effects. The opportunities are essentially endless.
 
 ## How?
 
 * `gem install feep`
 
-Feep doesn't require any parameters, as it will play a 440Hz/A4 sine wave at 50% full volume for 1000 milliseconds unless you supply one of the below options. Feep will only save the resulting WAV file it creates if you specify the `-save` parameter.
+Feep doesn't require any parameters, as it will play a 440Hz/A4 sine wave at 50% full volume for 200 milliseconds unless you supply one of the below options. Feep will only save the resulting WAV file it creates if you specify the `-save` parameter.
 
 The full usage looks like this:
 
-`feep [-fn frequency|note_name|comma-delimited_frequencies_or_note_names] [-w waveform] [-v volume] [-d duration] [-save] [-loud]`
+`feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-w, --waveform WAVEFORM] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [-save] [-loud]`
 
-`-frequency|note_name|commad-delimted_frequences_or_note_names`: a number from 0 to 20000. You can try something bigger or smaller, but you may get odd results. You may also enter any note name from C0 to B9 (or even flats and sharps like C#6 or Eb5). You may also also enter some combination of these with commas between them and it'll play all of them together in a chord.
+`-f, -n, --freq-or-note`: a number from 0 to 20000, or a valid note name from C0 to B9 (including sharps and flats). You can try a frequency outside of this range, but you may get odd results. You may also enter some combination of these with commas between them and it'll play all of them together in a chord.
 
-`-waveform`: a string equal to "sine", "square", "saw", "triangle", or "noise".
+`-w, --waveform`: a string equal to "sine", "square", "saw", "triangle", or "noise".
 
-`-volume`: a number from 0.0 (silence (why would you do this?)) to 1.0 (blast it)
+`-a, --amplitude`: a number from 0.0 (silence (why would you do this?)) to 1.0 (blast it)
 
-`-duration`: number of milliseconds for the sound to last
+`-d, --duration`: number of milliseconds for the sound to last
 
-`-save`: save the resulting WAV file in the current directory. Will create it in the format of `waveform_frequency-in-Hz_volume_duration.wav`
+`-save`: switch to save the resulting WAV file in the current directory. Will create it in the format of `waveform_frequency-in-Hz_volume_duration.wav`
 
-`-loud`: displays note and file-making information
+`-loud`: switch that displays note and file-making information
+
+## Examples
+
+`feep` - play a C4 sine wave note at 50% full volume for 200 ms
+`feep -n Ab6 -w saw` - play a Ab6 sawtooth wave note at 50% full volume for 200 ms
+`feep -n C#5 -w square -a 0.4 -d 500` - play a C#5 square wave note at 40% full volume for 500 ms
+`feep -n 2000 -w triangle -a 0.8 -d 2000` - play a 2000Hz triangle wave note at 80% full volume for 2000 ms
