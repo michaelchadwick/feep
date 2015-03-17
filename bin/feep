@@ -1,4 +1,3 @@
-# bin/feep
 #!/usr/bin/env ruby
 
 require 'pry'
