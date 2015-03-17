@@ -1,18 +1,26 @@
+# bin/feep
 #!/usr/bin/env ruby
 
+require 'pry'
 require 'optparse'
-require 'feep'
-
-USAGE_INSTRUCTIONS = ''
+require_relative '../lib/feep'
 
 def parse_options
-  options = {:freq_or_note => '440.000', :waveform => 'sine', :volume => 0.5, :duration => 200, :save => false, :loud => false}
+  options = {:freq_or_note => '440.000', :scale => nil, :waveform => 'sine', :volume => 0.5, :duration => 100, :save => false, :loud => false, :usage => nil}
 
   optparse = OptionParser.new do |opts|
-    opts.banner = 'usage: feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-w, --waveform WAVEFORM] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [-save] [-loud]'
+    opts.banner = 'usage: feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-d, --degrees NUMBER_OF_DEGREES] [-w, --waveform WAVEFORM] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [-save] [-loud]'
 
     opts.on('-f', '-n', '--freq-or-note FREQUENCY|NOTE_NAME', 'One or more frequencies or note names to play at once, e.g. 440 or A4 or 220,440,880') do |f_or_n|
       options[:freq_or_note] = f_or_n
+    end
+    
+    opts.on('-s', '--scale SCALE_ID', 'Name of a scale to play') do |s|
+      options[:scale] = s
+    end
+    
+    opts.on('-d', '--degrees NUMBER_OF_DEGREES', 'Number of degrees of the scale to play') do |d|
+      options[:degrees] = d
     end
     
     opts.on('-w', '--wave WAVEFORM', 'Waveform type to use for the sound') do |w|
@@ -27,11 +35,11 @@ def parse_options
       options[:duration] = d.to_i
     end
 
-    opts.on('-s', '--save', 'Save the resulting WAV file in the current directory') do
+    opts.on('--save', 'Save the resulting WAV file in the current directory') do
       options[:save] = true
     end
     
-    opts.on('-l', '--loud', 'Displays information about note(s) being played') do
+    opts.on('--loud', 'Displays information about note(s) being played') do
       options[:loud] = true
     end
 
@@ -46,7 +54,7 @@ def parse_options
     end
   end
 
-  USAGE_INSTRUCTIONS << optparse.to_s
+  options[:usage] = optparse.to_s
   optparse.parse!()
 
   return options
@@ -56,7 +64,6 @@ def print_error(error)
   case error
   when OptionParser::InvalidOption
     puts "#{$PROGRAM_NAME}: illegal option #{error.args.join(' ')}"
-    puts USAGE_INSTRUCTIONS
   else
     puts "An unexpected error occurred while running #{$PROGRAM_NAME}:"
     puts "  #{error}\n"
@@ -66,7 +73,7 @@ end
 begin
   options = parse_options
 
-  Feep.new(options)
+  Feep::Base.new(options)
 rescue => error
   print_error(error)
   exit(false)
