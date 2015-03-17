@@ -61,7 +61,6 @@ module Feep
         if OS.windows?
           system("del #{file}")
         else
-          
           system("rm #{file}")
         end
       else
