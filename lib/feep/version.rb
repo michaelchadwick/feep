@@ -1,3 +1,3 @@
-class Feep
-  VERSION = '0.0.6'
+module Feep
+  VERSION = '0.0.7'
 end
