@@ -8,11 +8,7 @@ def parse_options
   options = {:freq_or_note => '440.000', :scale => nil, :waveform => 'sine', :volume => 0.5, :duration => 100, :save => false, :loud => false, :usage => nil}
 
   optparse = OptionParser.new do |opts|
-<<<<<<< HEAD
     opts.banner = 'usage: feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud]'
-=======
-    opts.banner = 'usage: feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-d, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud]'
->>>>>>> 5edd73a48bfdcc91ad5d84aae01fffae1151f9e9
 
     opts.on('-f', '-n', '--freq-or-note FREQUENCY|NOTE_NAME', 'One or more frequencies or note names to play at once, e.g. 440 or A4 or 220,440,880') do |f_or_n|
       options[:freq_or_note] = f_or_n
