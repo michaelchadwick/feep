@@ -2,12 +2,13 @@
 
 require 'optparse'
 require_relative '../lib/feep'
+require_relative '../lib/feep/version'
 
 def parse_options
   options = {:freq_or_note => '440.000', :scale => nil, :waveform => 'sine', :volume => 0.5, :duration => 100, :save => false, :loud => false, :usage => nil}
 
   optparse = OptionParser.new do |opts|
-    opts.banner = 'usage: feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-d, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [-save] [-loud]'
+    opts.banner = 'usage: feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud]'
 
     opts.on('-f', '-n', '--freq-or-note FREQUENCY|NOTE_NAME', 'One or more frequencies or note names to play at once, e.g. 440 or A4 or 220,440,880') do |f_or_n|
       options[:freq_or_note] = f_or_n
@@ -17,11 +18,11 @@ def parse_options
       options[:scale] = s
     end
     
-    opts.on('-d', '--degrees NUMBER_OF_DEGREES', 'Number of degrees of the scale to play') do |d|
-      options[:degrees] = d
+    opts.on('-sd', '--degrees SCALE_DEGREES', 'Number of degrees of the scale to play') do |sd|
+      options[:degrees] = sd
     end
     
-    opts.on('-w', '--wave WAVEFORM', 'Waveform type to use for the sound') do |w|
+    opts.on('-w', '--waveform WAVEFORM', 'Waveform type to use for the sound') do |w|
       options[:waveform] = w
     end
 
@@ -42,7 +43,7 @@ def parse_options
     end
 
     opts.on('-v', '--version', 'Display version number and exit') do
-      puts "#{$PROGRAM_NAME} #{Feep::VERSION}"
+      puts "feep #{Feep::VERSION}"
       exit
     end
 

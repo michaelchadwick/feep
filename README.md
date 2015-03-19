@@ -14,17 +14,17 @@ Besides a quick way to make some kind of noise for fun or testing your speakers,
 
 * `gem install feep`
 
-Feep doesn't require any parameters, as it will play a 440Hz/A4 sine wave at 50% full volume for 200 milliseconds unless you supply one of the below options. Feep will only save the resulting WAV file it creates if you specify the `-save` parameter.
+Feep doesn't require any parameters, as it will play a 440Hz/A4 sine wave at 50% full volume for 100 milliseconds unless you supply one of the below options. Feep will only save the resulting WAV file(s) it creates if you specify the `--save` parameter.
 
 The full usage looks like this:
 
-`feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-d, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [-save] [-loud]`
+`feep [-f, -n, --freq-or-note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud]`
 
 `-f, -n, --freq-or-note`: a number from 0 to 20000, or a valid note name from C0 to B9 (including sharps and flats). You can try a frequency outside of this range, but you may get odd results. You may also enter some combination of these with commas between them and it'll play all of them together in a chord.
 
-`-s, -scale`: a scale ID that is part of the list that the gem understands (currently). If you put in an invalid one, it will list the valid ones.
+`-s, -scale`: a scale ID that is part of the list that the gem understands. If you put in an invalid one, it will list the valid ones.
 
-`-d, --degrees`: the number of degrees of a scale you want to play. By default, the scale will play one octave.
+`-sd, --degrees`: the number of degrees of a scale you want to play. By default, the scale will play one octave.
 
 `-w, --waveform`: a string equal to "sine", "square", "saw", "triangle", or "noise".
 
@@ -32,14 +32,15 @@ The full usage looks like this:
 
 `-d, --duration`: number of milliseconds for the sound to last.
 
-`-save`: switch to save the resulting WAV file in the current directory. Will create it in the format of `waveform_frequency-in-Hz_volume_duration.wav`.
+`--save`: switch to save the resulting WAV file in the current directory. Will create it in the format of `waveform_frequency-in-Hz_volume_duration.wav`.
 
-`-loud`: switch that displays note and file-making information.
+`--loud`: switch that displays note and file-making information.
 
 ## Examples
 
-* `feep` - play a C4 sine wave note at 50% full volume for 200 ms
+* `feep` - play a C4 sine wave note at 50% full volume for 100 ms
 * `feep -n Ab6 -w saw` - play a Ab6 sawtooth wave note at 50% full volume for 200 ms
 * `feep -n C#5 -w square -a 0.4 -d 500` - play a C#5 square wave note at 40% full volume for 500 ms
 * `feep -n 2000 -w triangle -a 0.8 -d 2000` - play a 2000Hz triangle wave note at 80% full volume for 2000 ms
 * `feep -n C3 -s major` - play a major scale with C3 as the root note
+* `feep -n D#5 -s whole_note -d 20` - play 20 degrees of a whole note scale with D#5 as the root note
