@@ -1,5 +1,6 @@
 # lib/feep/sound_file.rb
 # Contains code from Joel Strait's nanosynth to generate raw audio
+# https://github.com/jstrait/nanosynth
 
 require 'wavefile'
 require_relative 'constants'
