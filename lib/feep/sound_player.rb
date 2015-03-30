@@ -43,9 +43,9 @@ module Feep
       end
     end
     
-    # displays a fun beep message after playing wav file
+    # displays a fun 'feep' message after playing wav file
     def display_text_beep(duration)
-      print 'Be'
+      print 'Fe'
       1.upto(duration) {|ms|
         if ms % 100 == 0
           print 'e'
