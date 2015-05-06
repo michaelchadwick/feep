@@ -36,7 +36,7 @@ module Feep
         # yes, it's a chord, so create threads
         threads = []
         options[:freq_or_note].split(',').each do |note|
-          sound_to_play = Utils.new.convert_note_to_freq(note)
+          sound_to_play = Utils.convert_note_to_freq(note)
           output_filename = "#{options[:waveform]}_#{sound_to_play}Hz_#{options[:volume].to_f}_#{options[:duration]}.wav"
           threads << Thread.new {
             SoundPlayer.new.play_note(sound_to_play, output_filename, samples_to_write, options) 
