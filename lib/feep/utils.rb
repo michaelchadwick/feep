@@ -32,7 +32,7 @@ module Feep
     def self.print_error(msg_id)
       msg = ERROR_MSG[msg_id.to_sym]
       puts "#{File.basename($PROGRAM_NAME).split(".")[0]}: #{msg}"
-      puts 'usage: feep [frequency|note-name|list-of-frequencies-or-note-names] [scale] [scale-degrees] [sine|square|saw|triangle|noise] [volume] [duration] [save] [loud]'
+      puts 'feep -h for usage'
       exit
     end
   
