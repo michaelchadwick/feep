@@ -248,8 +248,9 @@ module Feep
 
   # error messages
   ERROR_MSG = Hash[
-    :invalid_note => 'Note name argument is invalid.',
-    :invalid_scale => "Scale ID is invalid. Valid IDs are: #{SCALES.keys}",
+    :invalid_note             => 'Note name argument is invalid.',
+    :invalid_scale            => "Scale ID is invalid. Valid IDs are: #{SCALES.keys}",
+    :invalid_scale_root_note  => 'Scale cannot start with that note/frequency.',
     :invalid_waveform => "Waveform type is invalid. Valid waveform types are: #{WAVE_TYPES}",
     :scale_needs_note => 'You need to enter a valid note (-n) if you want to play a scale.'
   ]

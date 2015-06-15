@@ -1,5 +1,7 @@
 # lib/feep/scale.rb
+
 require_relative '../feep'
+require_relative 'utils'
 require_relative 'constants'
 
 module Feep
@@ -11,40 +13,47 @@ module Feep
         Utils.print_error(:invalid_scale)
       end
 
-      unless NOTES.include?(options[:freq_or_note]) && NOTES_ALT.include?(options[:freq_or_note])
-        Utils.print_error(:invalid_note)
-      end
+      valid_notes = NOTES | NOTES_ALT | FREQS
+      freq = Utils::convert_note_to_freq(options[:freq_or_note]).to_f
 
-      steps = SCALES[options[:scale].to_sym].split(',')
+      if valid_notes.include?(freq)
+        steps = SCALES[options[:scale].to_sym].split(',')
 
-      note = options[:freq_or_note]
-      note_index = NOTES.index(note)
-      freq = FREQS[NOTES.index(note)]
+        freq_index = FREQS.index(freq)
 
-      feep_options = {:freq_or_note => note, :waveform => options[:waveform], :volume => options[:volume], :duration => options[:duration], :save => options[:save], :loud => options[:loud]}
+        feep_options = {
+          :freq_or_note => freq.to_s, 
+          :waveform => options[:waveform], 
+          :volume => options[:volume], 
+          :duration => options[:duration], 
+          :save => options[:save], 
+          :loud => options[:loud]
+        }
 
-      # play number of degrees of scale supplied or one octave by default
-      degrees = options[:degrees] || steps.length
+        # play number of degrees of scale supplied or one octave by default
+        degrees = options[:degrees] || steps.length
 
-      if options[:loud]
-        puts "Playing a #{options[:scale]} scale..."
-      end
-
-      1.upto(degrees.to_i) {|deg|
         if options[:loud]
-          puts "note: #{note}, freq: #{freq}"
+          puts "Playing a #{options[:scale]} scale..."
         end
-        
-        # play note
-        Feep::Base.new(feep_options)
 
-        # go to the next note in the scale
-        note_index += steps[deg].to_i
+        1.upto(degrees.to_i) {|deg|
+          if options[:loud]
+            puts "note: #{NOTE_FREQ.key(freq)}, freq: #{freq}"
+          end
+          
+          # play note
+          Feep::Base.new(feep_options)
+      
+          # go to the next note in the scale
+          freq_index += steps[deg].to_i
 
-        # set new note to play next time around
-        note = feep_options[:freq_or_note] = NOTES[note_index]
-        freq = FREQS[note_index]
-      }
+          # set new note to play next time around
+          freq = feep_options[:freq_or_note] = FREQS[freq_index].to_s
+        }
+      else
+        Utils.print_error(:invalid_scale_root_note)
+      end
     end
 
   end
