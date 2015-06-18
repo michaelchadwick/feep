@@ -20,12 +20,8 @@ module Feep
   
     # use command line app to play wav file
     def play_wav_file(file, duration)
-      delimiter = OS.windows? ? ';' : ':'
-
-      system_apps = ENV['PATH'].split(delimiter).collect { |d| Dir.entries d if Dir.exist? d }.flatten
-
       if OS.windows?
-        if system_apps.include? SNDPLAYER_WIN
+        if command_exists?(SNDPLAYER_WIN)
           display_text_beep(duration)
           system("#{SNDPLAYER_WIN} #{file}")
         else
@@ -34,7 +30,7 @@ module Feep
       end
 
       if OS.mac? || OS.linux?
-        if system_apps.include? SNDPLAYER_UNIX
+        if command_exists?(SNDPLAYER_UNIX)
           display_text_beep(duration)
           system("#{SNDPLAYER_UNIX} #{file}")
         else
@@ -80,6 +76,14 @@ module Feep
           puts "Sample Rate: #{info.sample_rate}"
         end
       end
+    end
+    
+    private
+    
+    def command_exists?(cmd)
+      ENV['PATH'].split(File::PATH_SEPARATOR).collect { |d| 
+        Dir.entries d if Dir.exist? d 
+      }.flatten.include?(cmd)
     end
 
   end
