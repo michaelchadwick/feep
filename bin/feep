@@ -7,10 +7,10 @@ require_relative '../lib/feep'
 require_relative '../lib/feep/version'
 
 def parse_options
-  options = {:freq_or_note => '440.000', :scale => nil, :waveform => 'sine', :volume => 0.5, :duration => 100, :save => false, :loud => false, :usage => nil}
+  options = {:freq_or_note => '440.000', :scale => nil, :waveform => 'sine', :volume => 0.5, :duration => 100, :save => false, :loud => false, :notext => false, :usage => nil}
 
   optparse = OptionParser.new do |opts|
-    opts.banner = 'usage: feep [-f, -n, --frequency, --note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud]'
+    opts.banner = 'usage: feep [-f, -n, --frequency, --note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud] [--notext]'
 
     opts.on('-f', '--frequency FREQUENCY', 'One or more frequencies or to play at once, e.g. 440 or 220,440,880') do |frequency|
       options[:freq_or_note] = frequency
@@ -46,6 +46,10 @@ def parse_options
     
     opts.on('--loud', 'Displays information about note(s) being played') do
       options[:loud] = true
+    end
+    
+    opts.on('--notext', 'No "Feeep!" text on play') do
+      options[:notext] = true
     end
 
     opts.on('-v', '--version', 'Display version number and exit') do
