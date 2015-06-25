@@ -14,15 +14,15 @@ module Feep
         puts "  duration:     #{options[:duration]}"
       end
       SoundFile.new.create_sound(frequency, samples_to_write, output_filename, options)
-      play_wav_file(output_filename, options[:duration])
+      play_wav_file(output_filename, options[:duration], options[:notext])
       remove_sound(output_filename, options)
     end
   
     # use command line app to play wav file
-    def play_wav_file(file, duration)
+    def play_wav_file(file, duration, notext)
       if OS.windows?
         if command_exists?(SNDPLAYER_WIN)
-          display_text_beep(duration)
+          display_text_beep(duration) unless notext
           system("#{SNDPLAYER_WIN} #{file}")
         else
           puts "couldn't find #{SNDPLAYER_WIN}"
@@ -31,7 +31,7 @@ module Feep
 
       if OS.mac? || OS.linux?
         if command_exists?(SNDPLAYER_UNIX)
-          display_text_beep(duration)
+          display_text_beep(duration) unless notext
           system("#{SNDPLAYER_UNIX} #{file}")
         else
           puts "couldn't find #{SNDPLAYER_UNIX}"
