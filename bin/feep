@@ -1,33 +1,43 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-require 'pry'
 
 require_relative '../lib/feep'
 require_relative '../lib/feep/version'
 
 def parse_options
-  options = {:freq_or_note => '440.000', :scale => nil, :waveform => 'sine', :volume => 0.5, :duration => 100, :save => false, :loud => false, :notext => false, :usage => nil}
+  options = {
+    :freq_or_note => '440.000',
+    :scale => nil,
+    :waveform => 'sine',
+    :volume => 0.5,
+    :duration => 100,
+    :save => false,
+    :loud => false,
+    :notext => false,
+    :usage => nil
+  }
 
   optparse = OptionParser.new do |opts|
-    opts.banner = 'usage: feep [-f, -n, --frequency, --note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud] [--notext]'
+    opts.banner = "Play sounds on the command line\n"
+    opts.banner += "usage: feep [-f, -n, --frequency, --note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud] [--notext]\n\n"
 
     opts.on('-f', '--frequency FREQUENCY', 'One or more frequencies or to play at once, e.g. 440 or 220,440,880') do |frequency|
       options[:freq_or_note] = frequency
     end
-    
+
     opts.on('-n', '--note NOTE_NAME', 'One or more note names to play at once, e.g. A4 or A4,C5,E5') do |note|
       options[:freq_or_note] = note
     end
-    
+
     opts.on('-s', '--scale SCALE_ID', 'Name of a scale to play') do |scale_id|
       options[:scale] = scale_id
     end
-    
+
     opts.on('--degrees SCALE_DEGREES', 'Number of degrees of the scale to play') do |degrees|
       options[:degrees] = degrees
     end
-    
+
     opts.on('-w', '--waveform WAVEFORM', 'Waveform type to use for the sound') do |waveform|
       options[:waveform] = waveform
     end
@@ -35,7 +45,7 @@ def parse_options
     opts.on('-a', '--amplitude MAX_AMPLITUDE', 'Amplitude/volume (0.0 - 1.0) to play the sound(s) at') do |amplitude|
       options[:volume] = amplitude.to_f
     end
-    
+
     opts.on('-d', '--duration DURATION', 'Duration in ms to play the sound(s)') do |duration|
       options[:duration] = duration.to_i
     end
@@ -43,11 +53,11 @@ def parse_options
     opts.on('--save', 'Save the resulting WAV file in the current directory') do
       options[:save] = true
     end
-    
+
     opts.on('--loud', 'Displays information about note(s) being played') do
       options[:loud] = true
     end
-    
+
     opts.on('--notext', 'No "Feeep!" text on play') do
       options[:notext] = true
     end
