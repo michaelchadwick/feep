@@ -7,22 +7,22 @@ module Feep
   
     # main function that creates, plays, and removes note
     def play_note(frequency, output_filename, samples_to_write, options)
-      if options[:loud]
+      if options[:verbose]
         puts 'Playing note'
         puts "  frequency:    #{frequency.to_f.abs}"
         puts "  midi:         #{Utils.freq_to_midi(frequency)}"
         puts "  duration:     #{options[:duration]}"
       end
       SoundFile.new.create_sound(frequency, samples_to_write, output_filename, options)
-      play_wav_file(output_filename, options[:duration], options[:notext])
+      play_wav_file(output_filename, options[:duration], options[:visual_cue])
       remove_sound(output_filename, options)
     end
   
     # use command line app to play wav file
-    def play_wav_file(file, duration, notext)
+    def play_wav_file(file, duration, visual_cue)
       if OS.windows?
         if command_exists?(SNDPLAYER_WIN)
-          display_text_beep(duration) unless notext
+          display_text_beep(duration) if visual_cue
           system("#{SNDPLAYER_WIN} #{file}")
         else
           puts "couldn't find #{SNDPLAYER_WIN}"
@@ -31,7 +31,7 @@ module Feep
 
       if OS.mac? || OS.linux?
         if command_exists?(SNDPLAYER_UNIX)
-          display_text_beep(duration) unless notext
+          display_text_beep(duration) if visual_cue
           system("#{SNDPLAYER_UNIX} #{file}")
         else
           puts "couldn't find #{SNDPLAYER_UNIX}"
@@ -50,7 +50,7 @@ module Feep
       puts 'ep!'
     end
 
-    # removes the sound, unless marked to save, 
+    # removes the sound, unless marked to save,
     # and optionally display info about file
     def remove_sound(file, options)
       unless options[:save]
@@ -60,7 +60,7 @@ module Feep
           system("rm #{file}")
         end
       else
-        if options[:loud]
+        if options[:verbose]
           info = WaveFile::Reader.info(file)
           duration = info.duration
           formatted_duration = duration.minutes.to_s.rjust(2, '0') << ':' <<

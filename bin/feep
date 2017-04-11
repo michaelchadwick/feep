@@ -13,14 +13,14 @@ def parse_options
     :volume => 0.5,
     :duration => 100,
     :save => false,
-    :loud => false,
-    :notext => false,
+    :verbose => false,
+    :visual_cue => false,
     :usage => nil
   }
 
   optparse = OptionParser.new do |opts|
     opts.banner = "Play sounds on the command line\n"
-    opts.banner += "usage: feep [-f, -n, --frequency, --note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud] [--notext]\n\n"
+    opts.banner += "usage: feep [-f, -n, --frequency, --note FREQUENCY|NOTE_NAME] [-s, --scale SCALE_ID] [-sd, --degrees NUMBER_OF_SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--verbose] [--visual_cue]\n\n"
 
     opts.on('-f', '--frequency FREQUENCY', 'One or more frequencies or to play at once, e.g. 440 or 220,440,880') do |frequency|
       options[:freq_or_note] = frequency
@@ -54,12 +54,12 @@ def parse_options
       options[:save] = true
     end
 
-    opts.on('--loud', 'Displays information about note(s) being played') do
-      options[:loud] = true
+    opts.on('--verbose', 'Displays information about note(s) being played') do
+      options[:verbose] = true
     end
 
-    opts.on('--notext', 'No "Feeep!" text on play') do
-      options[:notext] = true
+    opts.on('--visual_cue', 'Display "Feeep!" text on play') do
+      options[:visual_cue] = true
     end
 
     opts.on('-v', '--version', 'Display version number and exit') do

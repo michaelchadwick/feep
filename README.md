@@ -2,9 +2,9 @@
 [![Gem Version](https://badge.fury.io/rb/feep.svg)](http://badge.fury.io/rb/feep)
 
 ## Wha?
-Use the power of Ruby gems to make your computer [feep](http://dictionary.reference.com/browse/feep) (except more musically) using sweet [WAV-file-writing technology](http://wavefilegem.com) from [Joel Strait](https://github.com/jstrait). Works on both Windows and *nix (including OS X) as it uses the standard WAV format to do its bidding.
+Use the power of Ruby gems to make your computer [feep](http://dictionary.reference.com/browse/feep) (except more musically) using sweet [WAV-file-writing technology](http://wavefilegem.com) from [Joel Strait](https://github.com/jstrait). Works on both Windows and \*nix (including OS X) as it uses the standard WAV format to do its bidding.
 
-_Note:_ In order for the sound-playing magic to work on Windows, you will need [sounder](http://www.elifulkerson.com/projects/commandline-wav-player.php), a free command-line WAV file player on your system and in your path. Mac and *nix uses `afplay`, which should be built-in, but feel free to change either to something you already have or desire to install.
+_Note:_ In order for the sound-playing magic to work on Windows, you will need [sounder](http://www.elifulkerson.com/projects/commandline-wav-player.php), a free command-line WAV file player on your system and in your path. Mac and \*nix uses `afplay`, which should be built-in, but feel free to change either to something you already have or desire to install.
 
 ## Why?
 
@@ -18,7 +18,7 @@ Feep doesn't require any parameters, as it will play a 440Hz/A4 sine wave at 50%
 
 The full usage looks like this:
 
-`feep [-f, --frequency FREQUENCY] [-n, --note NOTE_NAME] [-s, --scale SCALE_ID] [--degrees SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--loud]`
+`feep [-f, --frequency FREQUENCY] [-n, --note NOTE_NAME] [-s, --scale SCALE_ID] [--degrees SCALE_DEGREES] [-w, --waveform WAVEFORM_ID] [-a, --amplitude MAX_AMPLITUDE] [-d, --duration DURATION] [--save] [--verbose] [--visual_cue]`
 
 `-f, --frequency, -n, --note`: a number from 0 to 20000, or a valid note name from C0 to B9 (including sharps and flats). Both `-f|--frequency` and `-n|--note` parameters can take either kind; they're both supported mainly for ease of use. You can try a frequency outside of this range, but you may get odd results. You may also enter some combination of these with commas between them and it'll play all of them together in a chord.
 
@@ -34,7 +34,9 @@ The full usage looks like this:
 
 `--save`: switch to save the resulting WAV file in the current directory. Will create it in the format of `waveform_frequency-in-Hz_volume_duration.wav`.
 
-`--loud`: switch that displays note and file-making information.
+`--verbose`: switch that displays note and file-making information.
+
+`--visual_cue`: switch that display a cute "Feep!" message, the length of which determined by the duration of the feep.
 
 ## Examples
 

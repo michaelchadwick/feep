@@ -27,18 +27,18 @@ module Feep
           :volume => options[:volume], 
           :duration => options[:duration], 
           :save => options[:save], 
-          :loud => options[:loud]
+          :verbose => options[:verbose]
         }
 
         # play number of degrees of scale supplied or one octave by default
         degrees = options[:degrees] || steps.length
 
-        if options[:loud]
+        if options[:verbose]
           puts "Playing a #{options[:scale]} scale..."
         end
 
         1.upto(degrees.to_i) {|deg|
-          if options[:loud]
+          if options[:verbose]
             puts "note: #{NOTE_FREQ.key(freq)}, freq: #{freq}"
           end
           

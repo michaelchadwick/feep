@@ -10,7 +10,7 @@ describe Feep do
       :volume => 0.5, 
       :duration => 100, 
       :save => false, 
-      :loud => false, 
+      :verbose => false, 
       :usage => nil
     }
   
